@@ -3,13 +3,10 @@ const {
   viewDepartments,
   viewRoles,
   viewEmployees,
-  updateEmployeeManager,
-  viewEmployeesByManager,
-  viewEmployeesByDepartment,
-  deleteDepartment,
-  deleteRole,
-  deleteEmployee,
-  viewDepartmentBudget
+  addDepartment,
+  addRole,
+  addEmployee,
+  updateEmployeeRole,
 } = require('./queries');
 
 const mainMenu = async () => {
@@ -22,13 +19,10 @@ const mainMenu = async () => {
         'View All Departments',
         'View All Roles',
         'View All Employees',
-        'Update Employee Manager',
-        'View Employees by Manager',
-        'View Employees by Department',
-        'Delete Department',
-        'Delete Role',
-        'Delete Employee',
-        'View Department Budget',
+        'Add Department',
+        'Add Role',
+        'Add Employee',
+        'Update Employee Role',
         'Exit',
       ],
     },
@@ -44,48 +38,35 @@ const mainMenu = async () => {
     case 'View All Employees':
       await viewEmployees();
       break;
-    case 'Update Employee Manager':
-      const { employeeId, managerId } = await inquirer.prompt([
+    case 'Add Department':
+      const { departmentName } = await inquirer.prompt([
+        { name: 'departmentName', type: 'input', message: 'Enter the department name:' }
+      ]);
+      await addDepartment(departmentName);
+      break;
+    case 'Add Role':
+      const { roleTitle, roleSalary, roleDepartmentId } = await inquirer.prompt([
+        { name: 'roleTitle', type: 'input', message: 'Enter the role title:' },
+        { name: 'roleSalary', type: 'input', message: 'Enter the role salary:' },
+        { name: 'roleDepartmentId', type: 'input', message: 'Enter the department ID for the role:' }
+      ]);
+      await addRole(roleTitle, roleSalary, roleDepartmentId);
+      break;
+    case 'Add Employee':
+      const { firstName, lastName, roleId, managerId } = await inquirer.prompt([
+        { name: 'firstName', type: 'input', message: 'Enter the employee first name:' },
+        { name: 'lastName', type: 'input', message: 'Enter the employee last name:' },
+        { name: 'roleId', type: 'input', message: 'Enter the role ID for the employee:' },
+        { name: 'managerId', type: 'input', message: 'Enter the manager ID for the employee (leave blank if none):', default: null }
+      ]);
+      await addEmployee(firstName, lastName, roleId, managerId);
+      break;
+    case 'Update Employee Role':
+      const { employeeId, newRoleId } = await inquirer.prompt([
         { name: 'employeeId', type: 'input', message: 'Enter the employee ID:' },
-        { name: 'managerId', type: 'input', message: 'Enter the new manager ID:' }
+        { name: 'newRoleId', type: 'input', message: 'Enter the new role ID for the employee:' }
       ]);
-      await updateEmployeeManager(employeeId, managerId);
-      break;
-    case 'View Employees by Manager':
-      const { managerIdToView } = await inquirer.prompt([
-        { name: 'managerIdToView', type: 'input', message: 'Enter the manager ID:' }
-      ]);
-      await viewEmployeesByManager(managerIdToView);
-      break;
-    case 'View Employees by Department':
-      const { departmentIdToView } = await inquirer.prompt([
-        { name: 'departmentIdToView', type: 'input', message: 'Enter the department ID:' }
-      ]);
-      await viewEmployeesByDepartment(departmentIdToView);
-      break;
-    case 'Delete Department':
-      const { departmentIdToDelete } = await inquirer.prompt([
-        { name: 'departmentIdToDelete', type: 'input', message: 'Enter the department ID to delete:' }
-      ]);
-      await deleteDepartment(departmentIdToDelete);
-      break;
-    case 'Delete Role':
-      const { roleIdToDelete } = await inquirer.prompt([
-        { name: 'roleIdToDelete', type: 'input', message: 'Enter the role ID to delete:' }
-      ]);
-      await deleteRole(roleIdToDelete);
-      break;
-    case 'Delete Employee':
-      const { employeeIdToDelete } = await inquirer.prompt([
-        { name: 'employeeIdToDelete', type: 'input', message: 'Enter the employee ID to delete:' }
-      ]);
-      await deleteEmployee(employeeIdToDelete);
-      break;
-    case 'View Department Budget':
-      const { departmentIdToBudget } = await inquirer.prompt([
-        { name: 'departmentIdToBudget', type: 'input', message: 'Enter the department ID to view budget:' }
-      ]);
-      await viewDepartmentBudget(departmentIdToBudget);
+      await updateEmployeeRole(employeeId, newRoleId);
       break;
     case 'Exit':
       console.log('Goodbye!');
