@@ -1,3 +1,4 @@
+
 const pool = require('./db');
 
 const viewDepartments = async () => {
@@ -63,7 +64,7 @@ const addRole = async (title, salary, departmentId) => {
 const addEmployee = async (firstName, lastName, roleId, managerId) => {
   const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)';
   try {
-    await pool.query(query, [firstName, lastName, roleId, managerId]);
+    await pool.query(query, [firstName, lastName, roleId, managerId || null]);
     console.log(`Added employee: ${firstName} ${lastName}`);
   } catch (err) {
     console.error('Error executing query', err.stack);
@@ -74,12 +75,11 @@ const updateEmployeeRole = async (employeeId, roleId) => {
   const query = 'UPDATE employee SET role_id = $1 WHERE id = $2';
   try {
     await pool.query(query, [roleId, employeeId]);
-    console.log(`Updated employee role with ID ${employeeId}`);
+    console.log(`Updated employee ${employeeId}'s role to ${roleId}`);
   } catch (err) {
     console.error('Error executing query', err.stack);
   }
 };
-
 
 // Export functions
 module.exports = {
@@ -90,6 +90,4 @@ module.exports = {
   addRole,
   addEmployee,
   updateEmployeeRole,
-  };
-
-
+};

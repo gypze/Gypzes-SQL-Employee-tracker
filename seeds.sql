@@ -9,6 +9,6 @@ INSERT INTO role (title, salary, department_id) VALUES
 
 -- Seed employees
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES 
-('Chester', 'Bennington', 1, NULL),
+('Chester', 'Bennington', 1, null),
 ('Darrell', 'Abbott', 2, 1),
 ('Manard', 'Keenan', 3, 1);
