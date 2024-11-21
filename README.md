@@ -23,7 +23,7 @@ This is a command-line application built from scratch that allows business owner
 1. Clone the repository to your local machine.
 2. Navigate to the project directory.
 3. Run `npm install` to install the necessary dependencies.
-4. Set up your PostgreSQL database and update the connection details in the `config.js` file.
+4. Set up your PostgreSQL database 
 5. Run the schema and seed files to set up your database tables and sample data.
 
 ## Usage
